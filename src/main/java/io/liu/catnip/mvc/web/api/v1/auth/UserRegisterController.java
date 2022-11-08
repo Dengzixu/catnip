@@ -1,6 +1,6 @@
 package io.liu.catnip.mvc.web.api.v1.auth;
 
-import io.liu.catnip.entity.dto.PasswordRegisterDTO;
+import io.liu.catnip.entity.dto.PasswordDTO;
 import io.liu.catnip.model.APIResponseMap;
 import io.liu.catnip.mvc.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class UserRegisterController {
     }
 
     @PostMapping("/password")
-    public ResponseEntity<APIResponseMap> passwordRegister(@RequestBody @Validated PasswordRegisterDTO passwordRegisterDTO,
+    public ResponseEntity<APIResponseMap> passwordRegister(@RequestBody @Validated PasswordDTO passwordDTO,
                                                            BindingResult bindingResult) {
         // 数据校验
         if (bindingResult.hasErrors()) {
@@ -34,7 +34,7 @@ public class UserRegisterController {
 
 
         // 邮件注册逻辑
-        userService.registerByPassword(passwordRegisterDTO);
+        userService.registerByPassword(passwordDTO);
 
 
         return ResponseEntity.ok().body(APIResponseMap.SUCCEEDED(""));

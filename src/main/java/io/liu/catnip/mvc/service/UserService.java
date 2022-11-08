@@ -1,12 +1,12 @@
 package io.liu.catnip.mvc.service;
 
-import io.liu.catnip.entity.dto.PasswordRegisterDTO;
+import io.liu.catnip.entity.dto.PasswordDTO;
 
 public interface UserService {
     /**
      * 通过密码注册用户
-     * @param passwordRegisterDTO 传递数据
+     * @param passwordDTO 传递数据
      */
-    void registerByPassword(PasswordRegisterDTO passwordRegisterDTO);
+    void registerByPassword(PasswordDTO passwordDTO);
 
 }
