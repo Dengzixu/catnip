@@ -3,6 +3,7 @@ package io.liu.catnip.mvc.service.impl;
 import io.liu.catnip.Utils.Password;
 import io.liu.catnip.entity.dto.PasswordDTO;
 import io.liu.catnip.exception.user.PhoneAlreadyUsedException;
+import io.liu.catnip.exception.user.UserNotFoundException;
 import io.liu.catnip.mvc.mapper.UserMapper;
 import io.liu.catnip.mvc.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,20 @@ public class UserServiceImpl implements UserService {
 
         // 写入数据库
         userMapper.createUser(username, encryptPassword, passwordDTO.phone());
+    }
+
+    @Override
+    public void authByPassword(PasswordDTO passwordDTO) {
+        // 密码加密
+        String encryptPassword = Password.encrypt(passwordDTO.password(), "password");
+
+        // 判断用户是否存在
+        if (userMapper.queryAndValid(passwordDTO.phone(), encryptPassword) == null) {
+            throw new UserNotFoundException();
+        }
+
+        // TODO 这几应该生成  JWT Token 了
+
     }
 
 }

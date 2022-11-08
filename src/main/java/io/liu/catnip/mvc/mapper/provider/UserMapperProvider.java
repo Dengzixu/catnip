@@ -23,4 +23,13 @@ public class UserMapperProvider {
             WHERE("phone = #{phone}");
         }}.toString();
     }
+
+    public String queryAndValidSql(String phone,String encryptPassword){
+        return new SQL() {{
+            SELECT(ALL_COLUMNS);
+            FROM(USER_TABLE_NAME);
+            WHERE("phone = #{phone}");
+            WHERE("password = #{encryptPassword}");
+        }}.toString();
+    }
 }
