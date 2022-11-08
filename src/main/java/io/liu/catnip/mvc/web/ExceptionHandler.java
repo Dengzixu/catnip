@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.util.NestedServletException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,6 +20,18 @@ public class ExceptionHandler {
                                                                        HttpMessageNotReadableException e) {
 
         HttpStatus httpStatus = HttpStatus.resolve(400);
+
+        return ResponseEntity.status(httpStatus != null ? httpStatus : HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(APIResponseMap.FAILED(-1, e.getMessage()));
+
+    }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(NestedServletException.class)
+    public ResponseEntity<Map<String, Object>> handleNestedServletExceptionException(HttpServletRequest request,
+                                                                                              HttpServletResponse response,
+                                                                                              HttpMessageNotReadableException e) {
+
+        HttpStatus httpStatus = HttpStatus.resolve(500);
 
         return ResponseEntity.status(httpStatus != null ? httpStatus : HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(APIResponseMap.FAILED(-1, e.getMessage()));
