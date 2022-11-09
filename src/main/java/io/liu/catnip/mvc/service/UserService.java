@@ -14,6 +14,7 @@ public interface UserService {
      * 通过密码进行身份认证
      *
      * @param passwordDTO 传递数据
+     * @return JWToken
      */
-    void authByPassword(PasswordDTO passwordDTO);
+    String authByPassword(PasswordDTO passwordDTO);
 }

@@ -1,6 +1,8 @@
 package io.liu.catnip.mvc.service.impl;
 
+import io.liu.catnip.Utils.JWTUtils;
 import io.liu.catnip.Utils.Password;
+import io.liu.catnip.entity.DO.UserDO;
 import io.liu.catnip.entity.dto.PasswordDTO;
 import io.liu.catnip.exception.user.PhoneAlreadyUsedException;
 import io.liu.catnip.exception.user.UserNotFoundException;
@@ -12,11 +14,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
+    private final JWTUtils jwtUtils;
 
     @Autowired
-    public UserServiceImpl(UserMapper userMapper) {
+    public UserServiceImpl(UserMapper userMapper, JWTUtils jwtUtils) {
         this.userMapper = userMapper;
+        this.jwtUtils = jwtUtils;
     }
+
 
     @Override
     public void registerByPassword(PasswordDTO passwordDTO) {
@@ -37,17 +42,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void authByPassword(PasswordDTO passwordDTO) {
+    public String authByPassword(PasswordDTO passwordDTO) {
         // 密码加密
         String encryptPassword = Password.encrypt(passwordDTO.password(), "password");
 
         // 判断用户是否存在
-        if (userMapper.queryAndValid(passwordDTO.phone(), encryptPassword) == null) {
+        UserDO queriedUser = userMapper.queryAndValid(passwordDTO.phone(), encryptPassword);
+        if (queriedUser == null) {
             throw new UserNotFoundException();
         }
 
-        // TODO 这几应该生成  JWT Token 了
+        // 生成 JWToken 了
+        String token = jwtUtils.encode(queriedUser.id());
 
+        return token;
     }
 
 }

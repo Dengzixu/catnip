@@ -35,9 +35,9 @@ public class UserAuthController {
                     .body(APIResponseMap.FAILED(-1, bindingResult.getFieldError()));
         }
 
-        userService.authByPassword(passwordDTO);
+        String token = userService.authByPassword(passwordDTO);
 
-        return ResponseEntity.ok(APIResponseMap.SUCCEEDED(""));
+        return ResponseEntity.ok(APIResponseMap.SUCCEEDED("", token));
     }
 
     @PostMapping("/sms_code")
