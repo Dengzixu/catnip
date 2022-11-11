@@ -1,4 +1,4 @@
-package io.liu.catnip.mvc.web.api.v1.auth;
+package io.liu.catnip.mvc.web.api.v1.user;
 
 import io.liu.catnip.entity.dto.PasswordDTO;
 import io.liu.catnip.model.APIResponseMap;
