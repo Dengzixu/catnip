@@ -8,11 +8,9 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -33,7 +31,8 @@ public class JWTUtils {
     public String encode(Map<String, String> payload) {
         return JWT.create()
                 .withExpiresAt(this.getExpireTime())
-                .withIssuer(String.valueOf(System.currentTimeMillis()))
+//                .withIssuer(String.valueOf(System.currentTimeMillis()))
+                .withIssuer("catnip")
                 .withPayload(payload)
                 .sign(algorithm);
     }
