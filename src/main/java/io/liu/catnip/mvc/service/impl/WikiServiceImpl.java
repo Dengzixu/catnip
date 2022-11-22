@@ -1,5 +1,7 @@
 package io.liu.catnip.mvc.service.impl;
 
+import io.liu.catnip.entity.DO.ArticleDO;
+import io.liu.catnip.entity.bo.ArticleBO;
 import io.liu.catnip.entity.dto.ArticleDTO;
 import io.liu.catnip.mvc.mapper.WikiArticleMapper;
 import io.liu.catnip.mvc.service.WikiService;
@@ -27,5 +29,16 @@ public class WikiServiceImpl implements WikiService {
 
         // 写入数据库
         wikiArticleMapper.createArticle(userID, articleDTO.title(), content);
+    }
+
+    @Override
+    public ArticleBO getArticle(String articleID) {
+        ArticleDO articleDO = wikiArticleMapper.getArticle(articleID);
+
+        // ArticleDO 转换为 ArticleBO
+        ArticleBO articleBO  = new ArticleBO(articleDO.id(), articleDO.userID(), articleDO.title(), articleDO.content(), articleDO.createTime(), articleDO.modifyTime());
+
+
+        return articleBO;
     }
 }

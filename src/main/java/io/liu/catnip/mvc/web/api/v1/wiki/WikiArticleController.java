@@ -1,6 +1,7 @@
 package io.liu.catnip.mvc.web.api.v1.wiki;
 
 import io.liu.catnip.Utils.JWTUtils;
+import io.liu.catnip.entity.bo.ArticleBO;
 import io.liu.catnip.entity.dto.ArticleDTO;
 import io.liu.catnip.exception.auth.TokenExpiredException;
 import io.liu.catnip.model.APIResponseMap;
@@ -49,9 +50,13 @@ public class WikiArticleController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<APIResponseMap> view(@RequestHeader("Authorization") String authorization,
+    public ResponseEntity<APIResponseMap> view(@RequestHeader(name = "Authorization", required = false) String authorization,
                                                @PathVariable String id) {
-        return ResponseEntity.ok(APIResponseMap.SUCCEEDED(""));
+
+        // 根据 ID 获取文章
+        ArticleBO articleBO = wikiService.getArticle(id);
+
+        return ResponseEntity.ok(APIResponseMap.SUCCEEDED("", articleBO));
     }
 
 
