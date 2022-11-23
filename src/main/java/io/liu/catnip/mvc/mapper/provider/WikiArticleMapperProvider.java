@@ -5,7 +5,7 @@ import org.apache.ibatis.jdbc.SQL;
 public class WikiArticleMapperProvider {
     public static final String CATNIP_WIKI_ARTICLE_TABLE_NAME = "catnip_wiki_article";
 
-    public static final String[] ALL_COLUMNS = {"id", "user_id", "title", "content", "create_time", "modify_time"};
+    public static final String[] ALL_COLUMNS = {"id", "user_id", "title", "content", "status", "create_time", "modify_time"};
 
     public String createArticleSql(Long userID, String title, String content) {
         return new SQL() {{

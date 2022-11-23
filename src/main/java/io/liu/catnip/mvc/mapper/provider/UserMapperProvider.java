@@ -5,7 +5,7 @@ import org.apache.ibatis.jdbc.SQL;
 public class UserMapperProvider {
     public static final String USER_TABLE_NAME = "catnip_user";
 
-    public static final String[] ALL_COLUMNS = {"id", "username", "phone", "create_time", "modify_time"};
+    public static final String[] ALL_COLUMNS = {"id", "username", "phone", "status", "create_time", "modify_time"};
 
     public String createUserByEmailSql(String username, String encryptPassword, String phone) {
         return new SQL() {{
@@ -24,7 +24,7 @@ public class UserMapperProvider {
         }}.toString();
     }
 
-    public String queryAndValidSql(String phone,String encryptPassword){
+    public String queryAndValidSql(String phone, String encryptPassword) {
         return new SQL() {{
             SELECT(ALL_COLUMNS);
             FROM(USER_TABLE_NAME);

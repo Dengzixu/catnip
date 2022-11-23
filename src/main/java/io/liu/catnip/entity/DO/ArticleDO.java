@@ -4,6 +4,7 @@ public record ArticleDO(Long id,
                         Long userID,
                         String title,
                         String content,
+                        Integer status,
                         String createTime,
                         String modifyTime) {
 }
