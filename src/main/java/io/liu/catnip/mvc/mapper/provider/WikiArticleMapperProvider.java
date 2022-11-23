@@ -16,6 +16,13 @@ public class WikiArticleMapperProvider {
         }}.toString();
     }
 
+    public String getAllArticleSql() {
+        return new SQL() {{
+            SELECT(ALL_COLUMNS);
+            FROM(CATNIP_WIKI_ARTICLE_TABLE_NAME);
+        }}.toString();
+    }
+
     public String getArticleSql(String articleID) {
         return new SQL() {{
             SELECT(ALL_COLUMNS);

@@ -1,6 +1,7 @@
 package io.liu.catnip.mvc.web.api.v1.wiki;
 
 import io.liu.catnip.Utils.JWTUtils;
+import io.liu.catnip.entity.DO.ArticleDO;
 import io.liu.catnip.entity.bo.ArticleBO;
 import io.liu.catnip.entity.dto.ArticleDTO;
 import io.liu.catnip.exception.auth.TokenExpiredException;
@@ -11,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/wiki/article")
@@ -47,6 +50,12 @@ public class WikiArticleController {
 
 
         return ResponseEntity.ok(APIResponseMap.SUCCEEDED(""));
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<APIResponseMap> all(@RequestHeader(name = "Authorization", required = false) String authorization) {
+        List<ArticleBO> articleBOList = wikiService.getAllArticle();
+        return ResponseEntity.ok(APIResponseMap.SUCCEEDED("",articleBOList));
     }
 
     @GetMapping("/{id}")

@@ -7,11 +7,16 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Mapper
 @Component
 public interface WikiArticleMapper {
     @InsertProvider(type = WikiArticleMapperProvider.class, method = "createArticleSql")
     void createArticle(Long userID, String title, String content);
+
+    @SelectProvider(type = WikiArticleMapperProvider.class, method = "getAllArticleSql")
+    List<ArticleDO> getAllArticle();
 
     @SelectProvider(type = WikiArticleMapperProvider.class, method = "getArticleSql")
     ArticleDO getArticle(String articleID);
