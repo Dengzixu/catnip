@@ -28,4 +28,6 @@ public interface WikiService {
      * @param articleID 文章 ID
      */
     ArticleBO getArticle(String articleID);
+
+    List<ArticleBO> getArticleByUserID(String userID);
 }

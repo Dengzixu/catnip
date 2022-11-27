@@ -20,4 +20,7 @@ public interface WikiArticleMapper {
 
     @SelectProvider(type = WikiArticleMapperProvider.class, method = "getArticleSql")
     ArticleDO getArticle(String articleID);
+
+    @SelectProvider(type = WikiArticleMapperProvider.class, method = "getArticleByUserIDSql")
+    List<ArticleDO> getArticleByUserID(String userID);
 }

@@ -53,7 +53,7 @@ public class WikiArticleController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<APIResponseMap> all(@RequestHeader(name = "Authorization", required = false) String authorization) {
+    public ResponseEntity<APIResponseMap> listAll(@RequestHeader(name = "Authorization", required = false) String authorization) {
         List<ArticleBO> articleBOList = wikiService.getAllArticle();
         return ResponseEntity.ok(APIResponseMap.SUCCEEDED("",articleBOList));
     }
@@ -68,5 +68,14 @@ public class WikiArticleController {
         return ResponseEntity.ok(APIResponseMap.SUCCEEDED("", articleBO));
     }
 
+    @GetMapping("/uid-{userID}")
+    public ResponseEntity<APIResponseMap> listByUserID(@RequestHeader(name = "Authorization", required = false) String authorization,
+                                                       @PathVariable String userID) {
+        // 根据 UserID 获取文章
+        List<ArticleBO> articleBOList = wikiService.getArticleByUserID(userID);
+
+
+        return ResponseEntity.ok(APIResponseMap.SUCCEEDED("", articleBOList));
+    }
 
 }

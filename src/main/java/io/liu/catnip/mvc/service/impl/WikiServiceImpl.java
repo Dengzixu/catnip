@@ -41,27 +41,7 @@ public class WikiServiceImpl implements WikiService {
         List<ArticleDO> articleDOList = wikiArticleMapper.getAllArticle();
 
         // 创建一个新的 ArticleBO List
-        List<ArticleBO> articleBOList = new ArrayList<>();
-
-        // 数据过滤
-        articleDOList.stream()
-                // 过滤掉 待审核文章
-                .filter(articleDO -> (ArticleStatus.EXAMINE & articleDO.status()) != ArticleStatus.EXAMINE)
-//                // 过滤 隐藏的文章
-                .filter(articleDO -> (articleDO.status() & ArticleStatus.HIDDEN) != ArticleStatus.HIDDEN)
-//                // 过滤 删除的文章
-                .filter(articleDO -> (articleDO.status() & ArticleStatus.DELETED) != ArticleStatus.DELETED)
-                .forEach(articleDO -> {
-                    System.out.println(articleDO);
-                    articleBOList.add(new ArticleBO(articleDO.id(),
-                            articleDO.userID(),
-                            articleDO.title(),
-                            articleDO.content(),
-                            articleDO.createTime(),
-                            articleDO.modifyTime()));
-                });
-
-        System.out.println(articleBOList);
+        List<ArticleBO> articleBOList = this.articleDOList2ArticleBOList(articleDOList);
 
         return articleBOList;
     }
@@ -76,5 +56,41 @@ public class WikiServiceImpl implements WikiService {
 
 
         return articleBO;
+    }
+
+    @Override
+    public List<ArticleBO> getArticleByUserID(String userID) {
+        // 从数据库查询数据
+        List<ArticleDO> articleDOList = wikiArticleMapper.getArticleByUserID(userID);
+
+        // 创建一个新的 ArticleBO List
+        List<ArticleBO> articleBOList = this.articleDOList2ArticleBOList(articleDOList);
+
+
+        return articleBOList;
+    }
+
+    private List<ArticleBO> articleDOList2ArticleBOList(List<ArticleDO> articleDOList) {
+        // 创建一个新的 ArticleBO List
+        List<ArticleBO> articleBOList = new ArrayList<>();
+
+        // 数据过滤
+        articleDOList.stream()
+                // 过滤掉 待审核文章
+                .filter(articleDO -> (ArticleStatus.EXAMINE & articleDO.status()) != ArticleStatus.EXAMINE)
+//                // 过滤 隐藏的文章
+                .filter(articleDO -> (articleDO.status() & ArticleStatus.HIDDEN) != ArticleStatus.HIDDEN)
+//                // 过滤 删除的文章
+                .filter(articleDO -> (articleDO.status() & ArticleStatus.DELETED) != ArticleStatus.DELETED)
+                .forEach(articleDO -> {
+                    articleBOList.add(new ArticleBO(articleDO.id(),
+                            articleDO.userID(),
+                            articleDO.title(),
+                            articleDO.content(),
+                            articleDO.createTime(),
+                            articleDO.modifyTime()));
+                });
+
+        return articleBOList;
     }
 }

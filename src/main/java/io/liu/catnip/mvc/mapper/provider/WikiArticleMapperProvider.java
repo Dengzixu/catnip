@@ -30,4 +30,12 @@ public class WikiArticleMapperProvider {
             WHERE("id = #{articleID}");
         }}.toString();
     }
+
+    public String getArticleByUserIDSql(String userID) {
+        return new SQL() {{
+            SELECT(ALL_COLUMNS);
+            FROM(CATNIP_WIKI_ARTICLE_TABLE_NAME);
+            WHERE("user_id = #{userID}");
+        }}.toString();
+    }
 }
