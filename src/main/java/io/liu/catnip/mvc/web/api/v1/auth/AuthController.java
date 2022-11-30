@@ -1,16 +1,15 @@
 package io.liu.catnip.mvc.web.api.v1.auth;
 
+import io.liu.catnip.Utils.JWTUtils;
 import io.liu.catnip.entity.dto.PasswordDTO;
+import io.liu.catnip.exception.auth.TokenExpiredException;
 import io.liu.catnip.model.APIResponseMap;
 import io.liu.catnip.mvc.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -49,4 +48,20 @@ public class AuthController {
     public ResponseEntity<APIResponseMap> sendSMSCode() {
         return ResponseEntity.ok(APIResponseMap.SUCCEEDED(""));
     }
+
+    @GetMapping("/token/verify")
+    public ResponseEntity<APIResponseMap> verifyToken(@RequestHeader(name = "Authorization", required = false, defaultValue = "") String authorization) {
+
+        if (null == authorization || "".equalsIgnoreCase(authorization)) {
+            throw new TokenExpiredException();
+        }
+
+        JWTUtils jwtUtils = new JWTUtils();
+
+        Long userID = jwtUtils.decode(authorization).orElseThrow(TokenExpiredException::new);
+
+        return ResponseEntity.ok(APIResponseMap.SUCCEEDED(""));
+    }
+
+
 }
