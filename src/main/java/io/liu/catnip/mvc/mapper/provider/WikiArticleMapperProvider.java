@@ -13,6 +13,7 @@ public class WikiArticleMapperProvider {
             VALUES("user_id", "#{userID}");
             VALUES("title", "#{title}");
             VALUES("content", "#{content}");
+            VALUES("status", "0");
         }}.toString();
     }
 
