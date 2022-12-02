@@ -4,6 +4,7 @@ import io.liu.catnip.constant.ArticleStatus;
 import io.liu.catnip.entity.DO.ArticleDO;
 import io.liu.catnip.entity.bo.ArticleBO;
 import io.liu.catnip.entity.dto.ArticleDTO;
+import io.liu.catnip.exception.wiki.ArticleNotFound;
 import io.liu.catnip.mvc.mapper.WikiArticleMapper;
 import io.liu.catnip.mvc.service.WikiService;
 import org.apache.commons.codec.binary.Base64;
@@ -50,6 +51,11 @@ public class WikiServiceImpl implements WikiService {
     public ArticleBO getArticle(String articleID) {
         // 从数据库查询数据
         ArticleDO articleDO = wikiArticleMapper.getArticle(articleID);
+
+        // 文章不存在就抛出异常
+        if (null == articleDO) {
+            throw new ArticleNotFound();
+        }
 
         // ArticleDO 转换为 ArticleBO
         ArticleBO articleBO = new ArticleBO(articleDO.id(), articleDO.userID(), articleDO.title(), articleDO.content(), articleDO.createTime(), articleDO.modifyTime());

@@ -1,6 +1,5 @@
 package io.liu.catnip.mvc.service;
 
-import io.liu.catnip.entity.DO.ArticleDO;
 import io.liu.catnip.entity.bo.ArticleBO;
 import io.liu.catnip.entity.dto.ArticleDTO;
 
