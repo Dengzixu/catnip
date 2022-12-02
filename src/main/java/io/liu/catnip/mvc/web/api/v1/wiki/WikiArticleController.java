@@ -2,7 +2,6 @@ package io.liu.catnip.mvc.web.api.v1.wiki;
 
 import io.liu.catnip.Utils.JWTUtils;
 import io.liu.catnip.entity.DO.ArticleDO;
-import io.liu.catnip.entity.bo.ArticleBO;
 import io.liu.catnip.entity.dto.ArticleDTO;
 import io.liu.catnip.exception.auth.TokenExpiredException;
 import io.liu.catnip.model.APIResponseMap;
@@ -54,8 +53,8 @@ public class WikiArticleController {
 
     @GetMapping("/all")
     public ResponseEntity<APIResponseMap> listAll(@RequestHeader(name = "Authorization", required = false) String authorization) {
-        List<ArticleBO> articleBOList = wikiService.getAllArticle();
-        return ResponseEntity.ok(APIResponseMap.SUCCEEDED("",articleBOList));
+        List<ArticleDO> articleDOList = wikiService.listAllArticle();
+        return ResponseEntity.ok(APIResponseMap.SUCCEEDED("", articleDOList));
     }
 
     @GetMapping("/{id}")
@@ -63,19 +62,18 @@ public class WikiArticleController {
                                                @PathVariable String id) {
 
         // 根据 ID 获取文章
-        ArticleBO articleBO = wikiService.getArticle(id);
+        ArticleDO articleDO = wikiService.queryArticle(id);
 
-        return ResponseEntity.ok(APIResponseMap.SUCCEEDED("", articleBO));
+        return ResponseEntity.ok(APIResponseMap.SUCCEEDED("", articleDO));
     }
 
     @GetMapping("/uid-{userID}")
     public ResponseEntity<APIResponseMap> listByUserID(@RequestHeader(name = "Authorization", required = false) String authorization,
                                                        @PathVariable String userID) {
         // 根据 UserID 获取文章
-        List<ArticleBO> articleBOList = wikiService.getArticleByUserID(userID);
+        List<ArticleDO> articleDOList = wikiService.listArticleByUserID(userID);
 
 
-        return ResponseEntity.ok(APIResponseMap.SUCCEEDED("", articleBOList));
+        return ResponseEntity.ok(APIResponseMap.SUCCEEDED("", articleDOList));
     }
-
 }

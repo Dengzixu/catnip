@@ -17,5 +17,8 @@ public interface UserMapper {
     UserDO queryUserByPhone(String phone);
 
     @SelectProvider(type = UserMapperProvider.class, method = "queryAndValidSql")
-    UserDO queryAndValid(String phone,String encryptPassword);
+    UserDO queryAndValid(String phone, String encryptPassword);
+
+    @SelectProvider(type = UserMapperProvider.class, method = "queryUserByIDSql")
+    UserDO queryUserByID(Long userID);
 }

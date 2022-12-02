@@ -1,6 +1,6 @@
 package io.liu.catnip.mvc.service;
 
-import io.liu.catnip.entity.bo.ArticleBO;
+import io.liu.catnip.entity.DO.ArticleDO;
 import io.liu.catnip.entity.dto.ArticleDTO;
 
 import java.util.List;
@@ -19,14 +19,20 @@ public interface WikiService {
      *
      * @return List<ArticleBO>
      */
-    List<ArticleBO> getAllArticle();
+    List<ArticleDO> listAllArticle();
 
     /**
      * 获取文章
      *
      * @param articleID 文章 ID
      */
-    ArticleBO getArticle(String articleID);
+    ArticleDO queryArticle(String articleID);
 
-    List<ArticleBO> getArticleByUserID(String userID);
+    /**
+     * 根据 用户ID 获取文章列表
+     *
+     * @param userID 用户 ID
+     * @return List<ArticleDO>
+     */
+    List<ArticleDO> listArticleByUserID(String userID);
 }

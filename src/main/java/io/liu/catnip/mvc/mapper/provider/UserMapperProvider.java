@@ -32,4 +32,12 @@ public class UserMapperProvider {
             WHERE("password = #{encryptPassword}");
         }}.toString();
     }
+
+    public String queryUserByIDSql(Long userID) {
+        return new SQL() {{
+            SELECT(ALL_COLUMNS);
+            FROM(USER_TABLE_NAME);
+            WHERE("id = #{userID}");
+        }}.toString();
+    }
 }
