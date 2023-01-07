@@ -1,6 +1,7 @@
 package io.liu.catnip.mvc.mapper;
 
 import io.liu.catnip.entity.DO.ArticleDO;
+import io.liu.catnip.entity.DO.CategoryDO;
 import io.liu.catnip.mvc.mapper.provider.WikiArticleMapperProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -13,7 +14,7 @@ import java.util.List;
 @Component
 public interface WikiArticleMapper {
     @InsertProvider(type = WikiArticleMapperProvider.class, method = "createArticleSql")
-    void createArticle(Long userID, String title, String content);
+    void createArticle(Long userID, String title, String content, Long categoryID);
 
     @SelectProvider(type = WikiArticleMapperProvider.class, method = "getAllArticleSql")
     List<ArticleDO> getAllArticle();
@@ -23,4 +24,7 @@ public interface WikiArticleMapper {
 
     @SelectProvider(type = WikiArticleMapperProvider.class, method = "getArticleByUserIDSql")
     List<ArticleDO> getArticleByUserID(String userID);
+
+    @SelectProvider(type = WikiArticleMapperProvider.class, method = "listCategorySql")
+    List<CategoryDO> listCategory();
 }

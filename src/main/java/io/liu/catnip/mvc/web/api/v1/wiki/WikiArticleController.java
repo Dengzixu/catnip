@@ -76,4 +76,9 @@ public class WikiArticleController {
 
         return ResponseEntity.ok(APIResponseMap.SUCCEEDED("", articleDOList));
     }
+
+    @GetMapping("/category/all")
+    public ResponseEntity<APIResponseMap> listAllCategory(@RequestHeader(name = "Authorization", required = false) String authorization) {
+        return ResponseEntity.ok(APIResponseMap.SUCCEEDED("", wikiService.listCategory()));
+    }
 }

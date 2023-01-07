@@ -1,6 +1,7 @@
 package io.liu.catnip.mvc.service.impl;
 
 import io.liu.catnip.entity.DO.ArticleDO;
+import io.liu.catnip.entity.DO.CategoryDO;
 import io.liu.catnip.entity.dto.ArticleDTO;
 import io.liu.catnip.exception.wiki.ArticleNotFound;
 import io.liu.catnip.mvc.mapper.WikiArticleMapper;
@@ -29,7 +30,8 @@ public class WikiServiceImpl implements WikiService {
         String content = new String(Base64.decodeBase64(articleDTO.content()));
 
         // 写入数据库
-        wikiArticleMapper.createArticle(userID, articleDTO.title(), content);
+        // TODO 文章ID待实现
+        wikiArticleMapper.createArticle(userID, articleDTO.title(), content, articleDTO.categoryID());
     }
 
     @Override
@@ -59,6 +61,11 @@ public class WikiServiceImpl implements WikiService {
         List<ArticleDO> articleDOList = wikiArticleMapper.getArticleByUserID(userID);
 
         return articleDOList;
+    }
+
+    @Override
+    public List<CategoryDO> listCategory() {
+        return wikiArticleMapper.listCategory();
     }
 
 //    private List<ArticleBO> articleDOList2ArticleBOList(List<ArticleDO> articleDOList) {

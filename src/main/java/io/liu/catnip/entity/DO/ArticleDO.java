@@ -5,6 +5,8 @@ public record ArticleDO(Long id,
                         String username,
                         String title,
                         String content,
+                        Long categoryID,
+                        String categoryName,
                         Integer status,
                         String createTime,
                         String modifyTime) {
