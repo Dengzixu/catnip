@@ -2,7 +2,9 @@ package io.liu.catnip.mvc.web.api.v1.wiki;
 
 import io.liu.catnip.Utils.JWTUtils;
 import io.liu.catnip.entity.DO.ArticleDO;
+import io.liu.catnip.entity.DO.CategoryDO;
 import io.liu.catnip.entity.dto.ArticleDTO;
+import io.liu.catnip.entity.vo.ArticleVO;
 import io.liu.catnip.exception.auth.TokenExpiredException;
 import io.liu.catnip.model.APIResponseMap;
 import io.liu.catnip.mvc.service.WikiService;
@@ -12,6 +14,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @RestController
@@ -54,7 +58,24 @@ public class WikiArticleController {
     @GetMapping("/all")
     public ResponseEntity<APIResponseMap> listAll(@RequestHeader(name = "Authorization", required = false) String authorization) {
         List<ArticleDO> articleDOList = wikiService.listAllArticle();
-        return ResponseEntity.ok(APIResponseMap.SUCCEEDED("", articleDOList));
+
+
+        // ArticleDO to ArticleVO
+        List<ArticleVO> articleVOList = new LinkedList<>();
+        articleDOList.forEach(articleDO -> {
+            articleVOList.add(new ArticleVO(articleDO.id(),
+                    articleDO.userID(),
+                    articleDO.username(),
+                    articleDO.title(),
+                    articleDO.content(),
+                    articleDO.categoryID(),
+                    articleDO.categoryName(),
+                    articleDO.status(),
+                    articleDO.createTime(),
+                    articleDO.modifyTime()));
+        });
+
+        return ResponseEntity.ok(APIResponseMap.SUCCEEDED("", articleVOList));
     }
 
     @GetMapping("/{id}")
@@ -64,7 +85,20 @@ public class WikiArticleController {
         // 根据 ID 获取文章
         ArticleDO articleDO = wikiService.queryArticle(id);
 
-        return ResponseEntity.ok(APIResponseMap.SUCCEEDED("", articleDO));
+        // ArticleDO to ArticleVO
+        ArticleVO articleVO = new ArticleVO(articleDO.id(),
+                articleDO.userID(),
+                articleDO.username(),
+                articleDO.title(),
+                articleDO.content(),
+                articleDO.categoryID(),
+                articleDO.categoryName(),
+                articleDO.status(),
+                articleDO.createTime(),
+                articleDO.modifyTime());
+
+
+        return ResponseEntity.ok(APIResponseMap.SUCCEEDED("", articleVO));
     }
 
     @GetMapping("/uid-{userID}")
@@ -73,12 +107,37 @@ public class WikiArticleController {
         // 根据 UserID 获取文章
         List<ArticleDO> articleDOList = wikiService.listArticleByUserID(userID);
 
+        // ArticleDO to ArticleVO
+        List<ArticleVO> articleVOList = new LinkedList<>();
+        articleDOList.forEach(articleDO -> {
+            articleVOList.add(new ArticleVO(articleDO.id(),
+                    articleDO.userID(),
+                    articleDO.username(),
+                    articleDO.title(),
+                    articleDO.content(),
+                    articleDO.categoryID(),
+                    articleDO.categoryName(),
+                    articleDO.status(),
+                    articleDO.createTime(),
+                    articleDO.modifyTime()));
+        });
 
-        return ResponseEntity.ok(APIResponseMap.SUCCEEDED("", articleDOList));
+
+        return ResponseEntity.ok(APIResponseMap.SUCCEEDED("", articleVOList));
     }
 
     @GetMapping("/category/all")
     public ResponseEntity<APIResponseMap> listAllCategory(@RequestHeader(name = "Authorization", required = false) String authorization) {
-        return ResponseEntity.ok(APIResponseMap.SUCCEEDED("", wikiService.listCategory()));
+        List<CategoryDO> categoryDOList = wikiService.listCategory();
+
+        // CategoryDO to CategoryVO
+        List<CategoryDO> categoryVOList = new LinkedList<>();
+        categoryDOList.forEach(categoryDO -> {
+            categoryVOList.add(new CategoryDO(categoryDO.id(),
+                    categoryDO.name()));
+        });
+
+
+        return ResponseEntity.ok(APIResponseMap.SUCCEEDED("", categoryVOList));
     }
 }
